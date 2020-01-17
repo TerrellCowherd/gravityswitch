@@ -58,22 +58,22 @@ namespace myTiles {
 `
     //% blockIdentity=images._tile
     export const tile3 = img`
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
 `
     //% blockIdentity=images._tile
     export const tile4 = img`
@@ -96,10 +96,10 @@ namespace myTiles {
 `
 }
 function bg () {
-    scene.setBackgroundColor(9)
+    scene.setBackgroundColor(11)
     effects.clouds.startScreenEffect()
     tiles.setTilemap(tiles.createTilemap(
-            hex`1000100003030303030303030303030303030303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000`,
+            hex`1000100003030303030303030303030303030303010000000000000000000000000000000100000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000100000000000000000000000000000001000000000000000000000000000000030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000`,
             img`
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 . . . . . . . . . . . . . . . . 
@@ -121,6 +121,10 @@ function bg () {
             [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4],
             TileScale.Sixteen
         ))
+    scene.centerCameraAt(100, 0)
+}
+function enemydamage () {
+    heliboy.destroy()
 }
 function hero () {
     roboboy = sprites.create(img`
@@ -181,6 +185,12 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 `)
     roboboy.ay = 50
 })
+scene.onOverlapTile(SpriteKind.Enemy, myTiles.tile0, function (sprite, location) {
+	
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    enemydamage()
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     roboboy.setImage(img`
 . . . . . . . . f f f f f . . . . . . . . . . . . . . 
@@ -239,7 +249,7 @@ function enemy () {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-`, SpriteKind.Player)
+`, SpriteKind.Enemy)
     animation.runImageAnimation(
     heliboy,
     [img`
@@ -299,6 +309,7 @@ function enemy () {
     )
     heliboy.setPosition(200, Math.randomRange(20, 100))
     heliboy.setVelocity(-20, 0)
+    pause(100)
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     roboboy.setImage(img`
@@ -329,9 +340,9 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 `)
     roboboy.ay = -50
 })
-let heliboy: Sprite = null
 let lemon: Sprite = null
 let roboboy: Sprite = null
+let heliboy: Sprite = null
 hero()
 bg()
 game.onUpdateInterval(2000, function () {
