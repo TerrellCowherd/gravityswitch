@@ -221,6 +221,85 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 . . . . . . . . . . . . . . . 
 `, roboboy, 200, 0)
 })
+function enemy () {
+    heliboy = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.Player)
+    animation.runImageAnimation(
+    heliboy,
+    [img`
+. . . 1 1 1 . . . . . . . . . . 
+. 1 1 . . . . . . . . . . 1 . . 
+1 . . . . . . . . . . . . . 1 . 
+1 . . . . . . . . . . . . . 1 . 
+. 1 . . . . . f . . . . 1 1 . . 
+. . . . . . . f . 1 1 1 . . . . 
+. . . . . . . f . . . . . . . . 
+. . . . . f f f f f . . . . . . 
+. . . . f 6 7 7 7 6 f . . . . . 
+. . . f 6 7 7 7 7 7 6 f . . . . 
+. . . f 7 7 7 7 5 7 7 5 f . . . 
+. . . f 7 7 7 5 5 7 7 5 f . . . 
+. . . f 5 7 5 5 5 7 7 4 f . . . 
+. . . f 6 7 7 7 7 7 6 f . . . . 
+. . . f f 6 7 7 7 6 f . . . . . 
+. . . . f f f f f f . . . . . . 
+`,img`
+. . . . . . . 1 1 1 . . . . . . 
+. . . . . . . . . . 1 1 . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . 1 1 . . f . . . . . . . . 
+. . . . . 1 1 f . . . . . . . . 
+. . . . . . . f . . . . . . . . 
+. . . . . f f f f f . . . . . . 
+. . . . f 6 7 7 7 6 f . . . . . 
+. . . f 6 7 7 7 7 7 6 f . . . . 
+. . . f 7 7 7 7 2 7 7 5 f . . . 
+. . . f 7 7 7 2 2 7 7 5 f . . . 
+. . . f 2 7 2 2 2 7 7 4 f . . . 
+. . . f 6 7 7 7 7 7 6 f . . . . 
+. . . f f 6 7 7 7 6 f . . . . . 
+. . . . f f f f f f . . . . . . 
+`,img`
+. . . . . . . . . 1 1 1 . . . . 
+. 1 . . . . . . . . . . 1 1 . . 
+1 . . . . . . . . . . . . . 1 . 
+1 . . . . . . . . . . . . . 1 . 
+. 1 1 . . . . f . . . . . 1 . . 
+. . . 1 1 1 . f . . . . . . . . 
+. . . . . . . f . . . . . . . . 
+. . . . . f f f f f . . . . . . 
+. . . . f 6 7 7 7 6 f . . . . . 
+. . . f 6 7 7 7 7 7 6 f . . . . 
+. . . f 7 7 7 7 4 7 7 5 f . . . 
+. . . f 7 7 7 4 4 7 7 5 f . . . 
+. . . f 4 7 4 4 4 7 7 4 f . . . 
+. . . f 6 7 7 7 7 7 6 f . . . . 
+. . . f f 6 7 7 7 6 f . . . . . 
+. . . . f f f f f f . . . . . . 
+`],
+    50,
+    true
+    )
+    heliboy.setPosition(200, Math.randomRange(20, 100))
+    heliboy.setVelocity(-20, 0)
+}
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     roboboy.setImage(img`
 . . . . . . . . f f f f f . . . . . . . . . . . . . . 
@@ -250,7 +329,11 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 `)
     roboboy.ay = -50
 })
+let heliboy: Sprite = null
 let lemon: Sprite = null
 let roboboy: Sprite = null
 hero()
 bg()
+game.onUpdateInterval(2000, function () {
+    enemy()
+})
