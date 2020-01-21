@@ -123,10 +123,6 @@ function bg () {
         ))
     scene.centerCameraAt(100, 0)
 }
-function herodamage () {
-    info.changeLifeBy(-1)
-    heliboy.setPosition(200, Math.randomRange(20, 100))
-}
 function hero () {
     roboboy = sprites.create(img`
 . . . . . . . . f f f f f . . . . . . . . . . . . . . 
@@ -187,9 +183,32 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 `)
     roboboy.ay = 50
 })
+function herodamage () {
+    info.changeLifeBy(-1)
+    heliboy.setPosition(200, Math.randomRange(20, 100))
+    roboboy.setImage(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`)
+}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     enemydamage()
 })
+// when A is pressed, the hero shoots a projectile
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     roboboy.setImage(img`
 . . . . . . . . f f f f f . . . . . . . . . . . . . . 
@@ -313,6 +332,9 @@ function enemy () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     herodamage()
 })
+scene.onOverlapTile(SpriteKind.Enemy, myTiles.tile1, function (sprite, location) {
+    heliboy.setPosition(200, Math.randomRange(20, 100))
+})
 function enemydamage () {
     heliboy.setPosition(200, Math.randomRange(20, 100))
     heliboy.vx += -2
@@ -348,8 +370,8 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     roboboy.ay = -50
 })
 let lemon: Sprite = null
-let roboboy: Sprite = null
 let heliboy: Sprite = null
+let roboboy: Sprite = null
 hero()
 bg()
 enemy()
