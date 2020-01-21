@@ -123,8 +123,9 @@ function bg () {
         ))
     scene.centerCameraAt(100, 0)
 }
-function enemydamage () {
-    heliboy.destroy()
+function herodamage () {
+    info.changeLifeBy(-1)
+    heliboy.setPosition(200, Math.randomRange(20, 100))
 }
 function hero () {
     roboboy = sprites.create(img`
@@ -155,6 +156,7 @@ function hero () {
 `, SpriteKind.Player)
     controller.moveSprite(roboboy, 70, 0)
     roboboy.ay = 50
+    info.setLife(5)
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     roboboy.setImage(img`
@@ -184,9 +186,6 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 . . . . . . . . . f f f f f . . . . . . . . . . . . . 
 `)
     roboboy.ay = 50
-})
-scene.onOverlapTile(SpriteKind.Enemy, myTiles.tile0, function (sprite, location) {
-	
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     enemydamage()
@@ -230,6 +229,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . 
 `, roboboy, 200, 0)
+    music.pewPew.play()
 })
 function enemy () {
     heliboy = sprites.create(img`
@@ -308,8 +308,15 @@ function enemy () {
     true
     )
     heliboy.setPosition(200, Math.randomRange(20, 100))
-    heliboy.setVelocity(-20, 0)
-    pause(100)
+    heliboy.setVelocity(-30, 0)
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    herodamage()
+})
+function enemydamage () {
+    heliboy.setPosition(200, Math.randomRange(20, 100))
+    heliboy.vx += -2
+    info.changeScoreBy(1)
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     roboboy.setImage(img`
@@ -345,6 +352,4 @@ let roboboy: Sprite = null
 let heliboy: Sprite = null
 hero()
 bg()
-game.onUpdateInterval(2000, function () {
-    enemy()
-})
+enemy()
