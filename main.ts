@@ -1,3 +1,11 @@
+enum ActionKind {
+    Walking,
+    Idle,
+    Jumping
+}
+namespace SpriteKind {
+    export const Boss = SpriteKind.create()
+}
 namespace myTiles {
     //% blockIdentity=images._tile
     export const tile0 = img`
@@ -94,6 +102,25 @@ f f f f f f f f f f f f f f f f
 9 9 9 9 9 9 9 9 9 9 9 9 9 9 8 8 
 9 9 9 9 9 9 9 9 9 9 9 9 9 9 8 8 
 `
+    //% blockIdentity=images._tile
+    export const tile5 = img`
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+`
 }
 function bg () {
     scene.setBackgroundColor(11)
@@ -118,10 +145,71 @@ function bg () {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `,
-            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4],
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5],
             TileScale.Sixteen
         ))
     scene.centerCameraAt(100, 0)
+}
+function bossbehavior () {
+    boss2.setImage(img`
+. . . . . . . . . . . . . . f f f f f . . . . . . . . 
+. . . . . . . . . . . . . f b b b b b f . . . . . . . 
+. . . . . . . . . . . . f c 1 1 c b b b f . . . . . . 
+. . . . . f f f . . . . f 1 b f 1 c b b 2 f . . . . . 
+. . . f f c c f . . . . f 1 f c 1 1 f b 2 f . . . . . 
+. . f 2 c f c c f . . . f 1 c c 1 c b b 2 f . . . . . 
+. f 2 f f 2 f c c f . . f c 1 1 c b b b f . . . . . . 
+. . f 2 f f . f c c f f . f b b b b b f . . . . . . . 
+. f 2 f . . . f c c c c f f f f f f f b f . . . . . . 
+. . f . . . . f c c c b b b f b b b b b c f f f . . . 
+. . . . . . f 2 c c b b b b f b b b b f c c c c f . . 
+. . . . . f 2 2 f f f f f f c c c b b f c c c c f . . 
+. . . . f f f f . . . . . f b b b c c f f c c c f . . 
+. . . . . . . . . . . . . f f f f b b f . f f f . . . 
+. . . . . . . . . . . . . f b f . f f f . . . . . . . 
+. . . . . . . . . . . . . f f f f f b f . . . . . . . 
+. . . . . . . . . . . . . f c c c f f f f . . . . . . 
+. . . . . . . . . . . . . f c c c f c c f . . . . . . 
+. . . . . . . . . . . . . . f c c f c c c f . . . . . 
+. . . . . . . . . . . . . . . f c f c c c f . . . . . 
+. . . . . . . . . . . . . . . . f f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f f f f . . . . . . 
+`)
+    boss2.vx = 0
+}
+function boss () {
+    boss2 = sprites.create(img`
+. . . . . . . . . . . . . . f f f f f . . . . . . . . 
+. . . . . . . . . . . . . f b b b b b f . . . . . . . 
+. . . . . . . . . . . . f c 1 1 c b b b f . . . . . . 
+. . . . . . . . . . . . f 1 b f 1 c b b 2 f . . . . . 
+. . . . . . . . . . . . f 1 f c 1 1 f b 2 f . . . . . 
+. . . . . . . . . . . . f 1 c c 1 c b b 2 f . . . . . 
+. . . . . . . . . . . . f c 1 1 c b b b f . . . . . . 
+. . . . . . . . . . . . . f b b b b b f . . . . . . . 
+. . . . . . . . . . . . . f f f f f f b f . . . . . . 
+. . . . . . . . . . f f f b f b b b b b c f f f . . . 
+. . . . . . . . . f c c c c f b b b b f c c c c f . . 
+. . . . . . . . . f c c c f c c c b b f c c c c f . . 
+. . . . . . . . . f c c c f b b b c c f f c c c f . . 
+. . . . . . . . . . f f f f f f f b b f . f f f . . . 
+. . . . . . . . . . . . . f b f . f f f . . . . . . . 
+. . . . . . . . . . . . . f f f f f b f . . . . . . . 
+. . . . . . . . . . . . . f c c c f f f f . . . . . . 
+. . . . . . . . . . . . . f c c c f c c f . . . . . . 
+. . . . . . . . . . . . . . f c c f c c c f . . . . . 
+. . . . . . . . . . . . . . . f c f c c c f . . . . . 
+. . . . . . . . . . . . . . . . f f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f f f f . . . . . . 
+`, SpriteKind.Boss)
+    boss2.setPosition(200, 58)
+    boss2.setVelocity(-10, 0)
+    pause(4000)
+    bossbehavior()
 }
 function hero () {
     roboboy = sprites.create(img`
@@ -187,22 +275,30 @@ function herodamage () {
     info.changeLifeBy(-1)
     heliboy.setPosition(200, Math.randomRange(20, 100))
     roboboy.setImage(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . f f f f f . . . . . . . . . . . . . . 
+. . . . . . . f 1 1 1 1 1 f . . . . . . . . . . . . . 
+. . . . . . f 1 1 1 1 1 1 1 f . . . . . . . . . . . . 
+. . . . . f 5 1 1 f 1 1 1 f f . . . . . . . . . . . . 
+. . . . . f 5 1 1 1 f 1 f 1 f . . . . . . . . . . . . 
+. . f f f f 5 1 f f f 1 f f f f f f . . . . . . . . . 
+. f 6 6 6 1 f 1 1 1 1 1 1 1 f 6 6 6 f . . . . . . . . 
+f 6 6 6 6 1 1 f 1 1 1 1 1 f 1 6 6 6 6 f . . . . . . . 
+f 6 6 6 6 f 1 1 f f f f f f 1 6 6 6 6 f . . . . . . . 
+f 6 6 6 f f f 1 1 1 1 1 f 1 f f 6 6 6 f . . . . . . . 
+. f f f . . . f 1 1 1 1 f f . . f f f . . . . . . . . 
+. . . . . . . f 1 1 6 6 6 f . . . . . . . . . . . . . 
+. . . . . . . f 6 6 1 1 1 f . . . . . . . . . . . . . 
+. . . . . . . f 1 1 1 f f f f . . . . . . . . . . . . 
+. . . . . . . f f f f f 6 6 6 f . . . . . . . . . . . 
+. . . . . . f 6 f 1 f f 6 6 6 f . . . . . . . . . . . 
+. . . . . . f 6 6 f f f 6 6 6 6 f . . . . . . . . . . 
+. . . . . f 6 6 6 6 f f 6 6 6 6 6 f . . . . . . . . . 
+. . . . . f 6 6 6 6 f f 6 6 6 6 6 f . . . . . . . . . 
+. . . . f 6 6 6 6 f . . f f f f f . . . . . . . . . . 
+. . . . f 6 6 6 6 f . . . . . . . . . . . . . . . . . 
+. . . . f 6 6 6 f . . . . . . . . . . . . . . . . . . 
+. . . . . f f f . . . . . . . . . . . . . . . . . . . 
 `)
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -339,6 +435,10 @@ function enemydamage () {
     heliboy.setPosition(200, Math.randomRange(20, 100))
     heliboy.vx += -2
     info.changeScoreBy(1)
+    if (info.score() == 1) {
+        heliboy.destroy()
+        boss()
+    }
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     roboboy.setImage(img`
@@ -372,6 +472,8 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 let lemon: Sprite = null
 let heliboy: Sprite = null
 let roboboy: Sprite = null
+let boss2: Sprite = null
+info.setScore(0)
 hero()
 bg()
 enemy()
