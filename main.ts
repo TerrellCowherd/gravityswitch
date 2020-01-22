@@ -185,37 +185,117 @@ function bg () {
         ))
     scene.centerCameraAt(100, 0)
 }
-function herodamage2 () {
-    info.changeLifeBy(-1)
-    roboboy.setImage(img`
-. . . . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . f f f f f . . . . . . . . . . . . . . 
-. . . . . . . f 1 1 1 1 1 f . . . . . . . . . . . . . 
-. . . . . . f 1 1 1 1 1 1 1 f . . . . . . . . . . . . 
-. . . . . f 5 1 1 f 1 1 1 f f . . . . . . . . . . . . 
-. . . . . f 5 1 1 1 f 1 f 1 f . . . . . . . . . . . . 
-. . f f f f 5 1 f f f 1 f f f f f f . . . . . . . . . 
-. f 6 6 6 1 f 1 1 1 1 1 1 1 f 6 6 6 f . . . . . . . . 
-f 6 6 6 6 1 1 f 1 1 1 1 1 f 1 6 6 6 6 f . . . . . . . 
-f 6 6 6 6 f 1 1 f f f f f f 1 6 6 6 6 f . . . . . . . 
-f 6 6 6 f f f 1 1 1 1 1 f 1 f f 6 6 6 f . . . . . . . 
-. f f f . . . f 1 1 1 1 f f . . f f f . . . . . . . . 
-. . . . . . . f 1 1 6 6 6 f . . . . . . . . . . . . . 
-. . . . . . . f 6 6 1 1 1 f . . . . . . . . . . . . . 
-. . . . . . . f 1 1 1 f f f f . . . . . . . . . . . . 
-. . . . . . . f f f f f 6 6 6 f . . . . . . . . . . . 
-. . . . . . f 6 f 1 f f 6 6 6 f . . . . . . . . . . . 
-. . . . . . f 6 6 f f f 6 6 6 6 f . . . . . . . . . . 
-. . . . . f 6 6 6 6 f f 6 6 6 6 6 f . . . . . . . . . 
-. . . . . f 6 6 6 6 f f 6 6 6 6 6 f . . . . . . . . . 
-. . . . f 6 6 6 6 f . . f f f f f . . . . . . . . . . 
-. . . . f 6 6 6 6 f . . . . . . . . . . . . . . . . . 
-. . . . f 6 6 6 f . . . . . . . . . . . . . . . . . . 
-. . . . . f f f . . . . . . . . . . . . . . . . . . . 
-`)
-    projectile.destroy()
-    projectile2.destroy()
-    projectile3.destroy()
+function bossdamage () {
+    info.changeScoreBy(1)
+    animation.runImageAnimation(
+    boss,
+    [img`
+. . . . . . . . . . . . . . f f f f f . . f . . . . . 
+. . . . . f . . f f f . f f b b b b b f f . . . . . . 
+. . . . . . . . . . f f f c 1 1 c b b b f . . f . . . 
+. . . . . f f f . . . f f 1 b f 1 c b b 2 f . . . . . 
+. . . f f c c f . . . . f 1 f c 1 1 f b 2 f . . . . . 
+. . f 2 c f c c f . . . f 1 c c 1 c b b 2 f . . f . . 
+. f 2 f f 2 f c c f . . f c 1 1 c b b b f . . f . . . 
+. . f 2 f f . f c c f f . f b b b b b f . . f . . . . 
+. f 2 f . . . f c c c c f f f f f f f b f f f . . . . 
+. . f . . . . f c c c b b b f b b b b b c f f f . . . 
+. . . . . . f c c c b b b b f b b b b f c c c c f . . 
+. . . . . f c c f f f f f f c c c b b f c c c c f . . 
+. . . . f f f f . . . f f f b b b c c f f c c c f . . 
+. . . . . . . . . . . f f f f f f b b f f f f f . . . 
+. . . . . . . . . . f f . f b f . f f f f . . . . . . 
+. . . . . . . . . f . . . f f f f f b f f . . f . . . 
+. . . . . . . . f . . . . f c c c f f f f f . . . . . 
+. . . . . . . . . . . . . f c c c f c c f f . . . . . 
+. . . . . . . . . . f . . . f c c f c c c f f . . . . 
+. . . . . . . . . . . . . . f f c f c c c f . f . . . 
+. . . . . . . . . . . . . f . f f f c c c f . . . . . 
+. . . . . . . . . . . . f . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . f . . . 
+. . . . . . . . . . . . . . . . . f f f f . . . . . . 
+`,img`
+. . . . . . . . . . . . . . f f f f f . . . . . . . . 
+. . . . . . . . . . . . . f b b b b b f . . . . . . . 
+. . . . . . . . . . . . f c 1 1 c b b b f . . . . . . 
+. . . . . f f f . . . . f 1 b f 1 c b b 2 f . . . . . 
+. . . f f c c f . . . . f 1 f c 1 1 f b 2 f . . . . . 
+. . f 2 c f c c f . . . f 1 c c 1 c b b 2 f . . . . . 
+. f 2 f f 2 f c c f . . f c 1 1 c b b b f . . . . . . 
+. . f 2 f f . f c c f f . f b b b b b f . . . . . . . 
+. f 2 f . . . f c c c c f f f f f f f b f . . . . . . 
+. . f . . . . f c c c b b b f b b b b b c f f f . . . 
+. . . . . . f c c c b b b b f b b b b f c c c c f . . 
+. . . . . f c c f f f f f f c c c b b f c c c c f . . 
+. . . . f f f f . . . . . f b b b c c f f c c c f . . 
+. . . . . . . . . . . . . f f f f b b f . f f f . . . 
+. . . . . . . . . . . . . f b f . f f f . . . . . . . 
+. . . . . . . . . . . . . f f f f f b f . . . . . . . 
+. . . . . . . . . . . . . f c c c f f f f . . . . . . 
+. . . . . . . . . . . . . f c c c f c c f . . . . . . 
+. . . . . . . . . . . . . . f c c f c c c f . . . . . 
+. . . . . . . . . . . . . . . f c f c c c f . . . . . 
+. . . . . . . . . . . . . . . . f f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f f f f . . . . . . 
+`,img`
+. . . . . . . . . . . . . . f f f f f . . f . . . . . 
+. . . . . f . . f f f . f f b b b b b f f . . . . . . 
+. . . . . . . . . . f f f c 1 1 c b b b f . . f . . . 
+. . . . . f f f . . . f f 1 b f 1 c b b 2 f . . . . . 
+. . . f f c c f . . . . f 1 f c 1 1 f b 2 f . . . . . 
+. . f 2 c f c c f . . . f 1 c c 1 c b b 2 f . . f . . 
+. f 2 f f 2 f c c f . . f c 1 1 c b b b f . . f . . . 
+. . f 2 f f . f c c f f . f b b b b b f . . f . . . . 
+. f 2 f . . . f c c c c f f f f f f f b f f f . . . . 
+. . f . . . . f c c c b b b f b b b b b c f f f . . . 
+. . . . . . f c c c b b b b f b b b b f c c c c f . . 
+. . . . . f c c f f f f f f c c c b b f c c c c f . . 
+. . . . f f f f . . . f f f b b b c c f f c c c f . . 
+. . . . . . . . . . . f f f f f f b b f f f f f . . . 
+. . . . . . . . . . f f . f b f . f f f f . . . . . . 
+. . . . . . . . . f . . . f f f f f b f f . . f . . . 
+. . . . . . . . f . . . . f c c c f f f f f . . . . . 
+. . . . . . . . . . . . . f c c c f c c f f . . . . . 
+. . . . . . . . . . f . . . f c c f c c c f f . . . . 
+. . . . . . . . . . . . . . f f c f c c c f . f . . . 
+. . . . . . . . . . . . . f . f f f c c c f . . . . . 
+. . . . . . . . . . . . f . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . f . . . 
+. . . . . . . . . . . . . . . . . f f f f . . . . . . 
+`,img`
+. . . . . . . . . . . . . . f f f f f . . . . . . . . 
+. . . . . . . . . . . . . f b b b b b f . . . . . . . 
+. . . . . . . . . . . . f c 1 1 c b b b f . . . . . . 
+. . . . . f f f . . . . f 1 b f 1 c b b 2 f . . . . . 
+. . . f f c c f . . . . f 1 f c 1 1 f b 2 f . . . . . 
+. . f 2 c f c c f . . . f 1 c c 1 c b b 2 f . . . . . 
+. f 2 f f 2 f c c f . . f c 1 1 c b b b f . . . . . . 
+. . f 2 f f . f c c f f . f b b b b b f . . . . . . . 
+. f 2 f . . . f c c c c f f f f f f f b f . . . . . . 
+. . f . . . . f c c c b b b f b b b b b c f f f . . . 
+. . . . . . f c c c b b b b f b b b b f c c c c f . . 
+. . . . . f c c f f f f f f c c c b b f c c c c f . . 
+. . . . f f f f . . . . . f b b b c c f f c c c f . . 
+. . . . . . . . . . . . . f f f f b b f . f f f . . . 
+. . . . . . . . . . . . . f b f . f f f . . . . . . . 
+. . . . . . . . . . . . . f f f f f b f . . . . . . . 
+. . . . . . . . . . . . . f c c c f f f f . . . . . . 
+. . . . . . . . . . . . . f c c c f c c f . . . . . . 
+. . . . . . . . . . . . . . f c c f c c c f . . . . . 
+. . . . . . . . . . . . . . . f c f c c c f . . . . . 
+. . . . . . . . . . . . . . . . f f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f c c c f . . . . . 
+. . . . . . . . . . . . . . . . . f f f f . . . . . . 
+`],
+    50,
+    false
+    )
+    if (info.score() == 200) {
+        game.over(true)
+    }
 }
 function hero () {
     roboboy = sprites.create(img`
@@ -277,6 +357,38 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 `)
     roboboy.ay = 50
 })
+function herodamage2 () {
+    info.changeLifeBy(-1)
+    roboboy.setImage(img`
+. . . . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . f f f f f . . . . . . . . . . . . . . 
+. . . . . . . f 1 1 1 1 1 f . . . . . . . . . . . . . 
+. . . . . . f 1 1 1 1 1 1 1 f . . . . . . . . . . . . 
+. . . . . f 5 1 1 f 1 1 1 f f . . . . . . . . . . . . 
+. . . . . f 5 1 1 1 f 1 f 1 f . . . . . . . . . . . . 
+. . f f f f 5 1 f f f 1 f f f f f f . . . . . . . . . 
+. f 6 6 6 1 f 1 1 1 1 1 1 1 f 6 6 6 f . . . . . . . . 
+f 6 6 6 6 1 1 f 1 1 1 1 1 f 1 6 6 6 6 f . . . . . . . 
+f 6 6 6 6 f 1 1 f f f f f f 1 6 6 6 6 f . . . . . . . 
+f 6 6 6 f f f 1 1 1 1 1 f 1 f f 6 6 6 f . . . . . . . 
+. f f f . . . f 1 1 1 1 f f . . f f f . . . . . . . . 
+. . . . . . . f 1 1 6 6 6 f . . . . . . . . . . . . . 
+. . . . . . . f 6 6 1 1 1 f . . . . . . . . . . . . . 
+. . . . . . . f 1 1 1 f f f f . . . . . . . . . . . . 
+. . . . . . . f f f f f 6 6 6 f . . . . . . . . . . . 
+. . . . . . f 6 f 1 f f 6 6 6 f . . . . . . . . . . . 
+. . . . . . f 6 6 f f f 6 6 6 6 f . . . . . . . . . . 
+. . . . . f 6 6 6 6 f f 6 6 6 6 6 f . . . . . . . . . 
+. . . . . f 6 6 6 6 f f 6 6 6 6 6 f . . . . . . . . . 
+. . . . f 6 6 6 6 f . . f f f f f . . . . . . . . . . 
+. . . . f 6 6 6 6 f . . . . . . . . . . . . . . . . . 
+. . . . f 6 6 6 f . . . . . . . . . . . . . . . . . . 
+. . . . . f f f . . . . . . . . . . . . . . . . . . . 
+`)
+    projectile.destroy()
+    projectile2.destroy()
+    projectile3.destroy()
+}
 function boss2 () {
     boss = sprites.create(img`
 . . . . . . . . . . . . . . f f f f f . . . . . . . . 
@@ -310,6 +422,7 @@ function boss2 () {
     bossbehavior()
 }
 function bossattack () {
+    music.pewPew.play()
     projectile = sprites.createProjectileFromSprite(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -327,7 +440,7 @@ f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . .
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
-`, boss, -100, 0)
+`, boss, -90, 0)
     projectile2 = sprites.createProjectileFromSprite(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -345,7 +458,7 @@ f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . .
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
-`, boss, -100, 35)
+`, boss, -90, 35)
     projectile3 = sprites.createProjectileFromSprite(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -363,7 +476,7 @@ f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . .
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
-`, boss, -100, -35)
+`, boss, -90, -35)
     pause(1500)
 }
 function herodamage () {
@@ -521,6 +634,11 @@ function enemy () {
     heliboy.setPosition(200, Math.randomRange(20, 100))
     heliboy.setVelocity(-30, 0)
 }
+sprites.onOverlap(SpriteKind.Boss, SpriteKind.HeroProjectile, function (sprite, otherSprite) {
+    if (boss.vx == 0) {
+        bossdamage()
+    }
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     herodamage()
 })
@@ -531,7 +649,7 @@ function enemydamage () {
     heliboy.setPosition(200, Math.randomRange(20, 100))
     heliboy.vx += -2
     info.changeScoreBy(1)
-    if (info.score() == 1) {
+    if (info.score() == 30) {
         heliboy.destroy()
         boss2()
     }
@@ -579,3 +697,6 @@ info.setScore(0)
 hero()
 bg()
 enemy()
+game.splash("Use Arrows to move.", "Press A to shoot.")
+game.splash("Up/Down Arrows change", "gravity.")
+game.splash("30 points summons the", "boss. 200 to win.")
