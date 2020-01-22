@@ -5,6 +5,7 @@ enum ActionKind {
 }
 namespace SpriteKind {
     export const Boss = SpriteKind.create()
+    export const HeroProjectile = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -123,7 +124,8 @@ b b b b b b b b b b b b b b b b
 `
 }
 function bossbehavior () {
-    boss2.setImage(img`
+    boss.setFlag(SpriteFlag.BounceOnWall, true)
+    boss.setImage(img`
 . . . . . . . . . . . . . . f f f f f . . . . . . . . 
 . . . . . . . . . . . . . f b b b b b f . . . . . . . 
 . . . . . . . . . . . . f c 1 1 c b b b f . . . . . . 
@@ -149,7 +151,8 @@ function bossbehavior () {
 . . . . . . . . . . . . . . . . . f c c c f . . . . . 
 . . . . . . . . . . . . . . . . . f f f f . . . . . . 
 `)
-    boss2.vx = 0
+    boss.vx = 0
+    boss.vy = 50
     while (true) {
         bossattack()
     }
@@ -182,62 +185,37 @@ function bg () {
         ))
     scene.centerCameraAt(100, 0)
 }
-function bossattack () {
-    projectile = sprites.createProjectileFromSprite(img`
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . f f f f f f . . . . . . . . . . . . . . . . . 
-. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 2 2 2 f . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
-. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
-. . f f f f f f . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-`, boss2, -100, 0)
-    projectile = sprites.createProjectileFromSprite(img`
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . f f f f f f . . . . . . . . . . . . . . . . . 
-. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 2 2 2 f . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
-. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
-. . f f f f f f . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-`, boss2, -100, 35)
-    projectile = sprites.createProjectileFromSprite(img`
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . f f f f f f . . . . . . . . . . . . . . . . . 
-. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 2 2 2 f . . . . . . . . . . . . 
-f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
-. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
-. . f f f f f f . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-`, boss2, -100, -35)
-    pause(1000)
+function herodamage2 () {
+    info.changeLifeBy(-1)
+    roboboy.setImage(img`
+. . . . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . f f f f f . . . . . . . . . . . . . . 
+. . . . . . . f 1 1 1 1 1 f . . . . . . . . . . . . . 
+. . . . . . f 1 1 1 1 1 1 1 f . . . . . . . . . . . . 
+. . . . . f 5 1 1 f 1 1 1 f f . . . . . . . . . . . . 
+. . . . . f 5 1 1 1 f 1 f 1 f . . . . . . . . . . . . 
+. . f f f f 5 1 f f f 1 f f f f f f . . . . . . . . . 
+. f 6 6 6 1 f 1 1 1 1 1 1 1 f 6 6 6 f . . . . . . . . 
+f 6 6 6 6 1 1 f 1 1 1 1 1 f 1 6 6 6 6 f . . . . . . . 
+f 6 6 6 6 f 1 1 f f f f f f 1 6 6 6 6 f . . . . . . . 
+f 6 6 6 f f f 1 1 1 1 1 f 1 f f 6 6 6 f . . . . . . . 
+. f f f . . . f 1 1 1 1 f f . . f f f . . . . . . . . 
+. . . . . . . f 1 1 6 6 6 f . . . . . . . . . . . . . 
+. . . . . . . f 6 6 1 1 1 f . . . . . . . . . . . . . 
+. . . . . . . f 1 1 1 f f f f . . . . . . . . . . . . 
+. . . . . . . f f f f f 6 6 6 f . . . . . . . . . . . 
+. . . . . . f 6 f 1 f f 6 6 6 f . . . . . . . . . . . 
+. . . . . . f 6 6 f f f 6 6 6 6 f . . . . . . . . . . 
+. . . . . f 6 6 6 6 f f 6 6 6 6 6 f . . . . . . . . . 
+. . . . . f 6 6 6 6 f f 6 6 6 6 6 f . . . . . . . . . 
+. . . . f 6 6 6 6 f . . f f f f f . . . . . . . . . . 
+. . . . f 6 6 6 6 f . . . . . . . . . . . . . . . . . 
+. . . . f 6 6 6 f . . . . . . . . . . . . . . . . . . 
+. . . . . f f f . . . . . . . . . . . . . . . . . . . 
+`)
+    projectile.destroy()
+    projectile2.destroy()
+    projectile3.destroy()
 }
 function hero () {
     roboboy = sprites.create(img`
@@ -299,8 +277,8 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 `)
     roboboy.ay = 50
 })
-function boss () {
-    boss2 = sprites.create(img`
+function boss2 () {
+    boss = sprites.create(img`
 . . . . . . . . . . . . . . f f f f f . . . . . . . . 
 . . . . . . . . . . . . . f b b b b b f . . . . . . . 
 . . . . . . . . . . . . f c 1 1 c b b b f . . . . . . 
@@ -326,10 +304,67 @@ function boss () {
 . . . . . . . . . . . . . . . . . f c c c f . . . . . 
 . . . . . . . . . . . . . . . . . f f f f . . . . . . 
 `, SpriteKind.Boss)
-    boss2.setPosition(200, 58)
-    boss2.setVelocity(-10, 0)
+    boss.setPosition(200, 58)
+    boss.vx = -10
     pause(4000)
     bossbehavior()
+}
+function bossattack () {
+    projectile = sprites.createProjectileFromSprite(img`
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . f f f f f f . . . . . . . . . . . . . . . . . 
+. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 2 2 2 f . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
+. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
+. . f f f f f f . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+`, boss, -100, 0)
+    projectile2 = sprites.createProjectileFromSprite(img`
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . f f f f f f . . . . . . . . . . . . . . . . . 
+. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 2 2 2 f . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
+. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
+. . f f f f f f . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+`, boss, -100, 35)
+    projectile3 = sprites.createProjectileFromSprite(img`
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . f f f f f f . . . . . . . . . . . . . . . . . 
+. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 2 2 2 f . . . . . . . . . . . . 
+f 2 2 2 2 2 2 2 2 f f f . . . . . . . . . . . . . 
+. f 2 2 2 2 2 2 f . . . . . . . . . . . . . . . . 
+. . f f f f f f . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+`, boss, -100, -35)
+    pause(1500)
 }
 function herodamage () {
     info.changeLifeBy(-1)
@@ -361,8 +396,8 @@ f 6 6 6 f f f 1 1 1 1 1 f 1 f f 6 6 6 f . . . . . . .
 . . . . . f f f . . . . . . . . . . . . . . . . . . . 
 `)
 }
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    enemydamage()
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
+    herodamage2()
 })
 // when A is pressed, the hero shoots a projectile
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -404,6 +439,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . 
 `, roboboy, 200, 0)
+    lemon.setKind(SpriteKind.HeroProjectile)
     music.pewPew.play()
 })
 function enemy () {
@@ -497,7 +533,7 @@ function enemydamage () {
     info.changeScoreBy(1)
     if (info.score() == 1) {
         heliboy.destroy()
-        boss()
+        boss2()
     }
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -529,11 +565,16 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 `)
     roboboy.ay = -50
 })
+sprites.onOverlap(SpriteKind.HeroProjectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    enemydamage()
+})
 let lemon: Sprite = null
 let heliboy: Sprite = null
-let roboboy: Sprite = null
+let projectile3: Sprite = null
+let projectile2: Sprite = null
 let projectile: Sprite = null
-let boss2: Sprite = null
+let roboboy: Sprite = null
+let boss: Sprite = null
 info.setScore(0)
 hero()
 bg()
