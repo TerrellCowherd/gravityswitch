@@ -445,6 +445,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function bossdamage () {
     info.changeScoreBy(1)
+    // animates the boss
     animation.runImageAnimation(
     boss,
     [img`
